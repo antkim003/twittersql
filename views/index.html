@@ -2,19 +2,19 @@
 
 {% block content %}
 
-<div class="row">
-{% for tweet in tweets %}
 
-	<div class="col-md-3">
-		<img src="{{tweet.User.pictureUrl}}">
+{% for tweet in tweets %}
+<div class="row">
+	<div class="col-md-3 vcenter">
+		<img src="http://1.bp.blogspot.com/-1aK7HDgQUXs/UJJRzSCvCRI/AAAAAAAABec/9YECGPST3rk/s1600/111.png">
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-4 vcenter">
 		Name: {{tweet.User.name}} 
 	</div>
-	<div class="col-md-5">
+	<div class="col-md-5 vcenter">
 		Tweet: {{tweet.tweet}}
 	</div>
-
-{% endfor %}
 </div>
+{% endfor %}
+
 {% endblock %}
