@@ -16,8 +16,27 @@ router.get('/', function(req, res, next) {
 		//console.log(results)
 	});
 });
-//router.get('/username', showUser);
 
+router.get('/users/:username', function(req, res, next) {
+
+	Model.User.find({
+		where: {name: req.params.username}, 
+		include: [Model.Tweet]
+	}).then(function (results) {
+		console.log(results.get({plain: true}));
+	})
+});
+
+router.get('/create', function(req, res, next) {
+	res.render('form');
+})
+
+router.post('/create', function(req, res, next) {
+	var name = req.params.username;
+	var tweet = req.params.tweet;
+
+	//Model.User.findOrCreate
+})
 
 /*
 Model.User.findAll({

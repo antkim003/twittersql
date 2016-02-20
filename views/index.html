@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+<div class="row">
+	<div class="pull-right">
+		<a class="btn btn-default" href="/create" role="button">Add Tweet</a>
+	</div>
+</div>
 
 {% for tweet in tweets %}
 <div class="row">

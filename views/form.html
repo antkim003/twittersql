@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+	<div class="pull-left">
+		<a class="btn btn-default" href="/" role="button">Back</a>
+	</div>
+</div>
+
+        <form action="/create" method="POST">
+          <label for="name_field">Name:</label>
+          <input name="name" type="text" id="name_field" value=""/>
+
+          <label for="text_field">Text:</label>
+          <input name="text" type="text" id="text_field" />
+
+          <input type="submit" value="Submit" />
+        </form>
+
+{% endblock %}
