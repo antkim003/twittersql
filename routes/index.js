@@ -4,45 +4,38 @@ var router = express.Router();
 var swig = require('swig');
 var path = require('path'); 
 var Model = require('../models/index');
+var sequelize = require('sequelize');
 
 module.exports = router; 
+var Tweet = Model.Tweet;
+var User = Model.User;
 
 router.get('/', function(req, res, next) {
-	Model.Tweet.findAll({
-		include: [Model.User]
+	Tweet.findAll({
+		include: [User]
 	}) 
 	.then(function(results) {
-		res.render('index', {tweets:results});
-		//console.log(results)
+		res.render('index', {tweets:results, mode: 'home'});
+		//console.log(user)
 	});
 });
 
 router.get('/summary', function(req, res, next) {
-	var numTweets = {};
-	Model.User.findAll({
-		where: {name: "ontima"}
+	var tweetObj = [];
+	User.findAll({
+		include: [Tweet]
 	})
 	.then(function(users){
-		users.forEach(function(user) {
-			user.getTweets().then(function(tweet){
-				numTweets[user] = tweet;
-			});
-		});
-		console.log("numTweets ", numTweets);
-		// users.map(function(user) {
-		// 	user.getTweets().then(function(tweet) {
-		// 		numTweets[user] = tweet;
-		// 	})
-		// })
+		console.log('users >>>>', users);
+		res.render('summary', {users: users, mode: 'summary'});
 	});
 })
 
 
 router.get('/users/:id', function(req, res, next) {
-
-	Model.User.find({
+	User.find({
 		where: {id: req.params.id}, 
-		include: [Model.Tweet]
+		include: [Tweet]
 	}).then(function (results) {
 		console.log("results to user page: ", results.get({plain: true}));
 		res.render('user', {user:results});
@@ -58,11 +51,11 @@ router.post('/create', function(req, res, next) {
 	var userName = req.body.name;
 	var tweet = req.body.text;
 
-	Model.User.findOrCreate({
+	User.findOrCreate({
 		where: {name: userName}
 	}).then (function(user) {
 		console.log("userid: ", user[0].id);
-		 return Model.Tweet.create({
+		 return Tweet.create({
 		 	tweet: tweet,
 		 	UserId: user[0].id
 		 })
@@ -72,7 +65,7 @@ router.post('/create', function(req, res, next) {
 });
 
 router.get('/delete/:tweetid', function(req, res, next) {
-	Model.Tweet.find({
+	Tweet.find({
 		where: {id: req.params.tweetid}
 	}).then(function(results) {
 		return results.destroy();
@@ -84,7 +77,7 @@ router.get('/delete/:tweetid', function(req, res, next) {
 
 
 /*
-Model.User.findAll({
+User.findAll({
   include: [ Model.Tweet ]
 }).then(function(users) {
   console.log(users);

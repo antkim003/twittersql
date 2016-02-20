@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Summary of the number of tweets by user</h2>
+{% for user in users %}
+<div class="row well">
+  <div class="col-md-3 vcenter">
+    <img src="http://1.bp.blogspot.com/-1aK7HDgQUXs/UJJRzSCvCRI/AAAAAAAABec/9YECGPST3rk/s1600/111.png">
+  </div>
+  <div class="col-md-3 vcenter">
+    Name: <a href="/users/{{user.id}}">{{user.name}} </a> 
+  </div>
+  <div class="col-md-4 vcenter">
+    Number of Tweets: {{user.Tweets.length}}
+  </div>
+</div>
+{% endfor %}
+
