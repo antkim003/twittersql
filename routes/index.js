@@ -17,13 +17,14 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.get('/users/:username', function(req, res, next) {
+router.get('/users/:id', function(req, res, next) {
 
 	Model.User.find({
-		where: {name: req.params.username}, 
+		where: {id: req.params.id}, 
 		include: [Model.Tweet]
 	}).then(function (results) {
-		console.log(results.get({plain: true}));
+		console.log("results to user page: ", results.get({plain: true}));
+		res.render('user', {user:results});
 	})
 });
 
@@ -32,11 +33,34 @@ router.get('/create', function(req, res, next) {
 })
 
 router.post('/create', function(req, res, next) {
-	var name = req.params.username;
-	var tweet = req.params.tweet;
+	console.log(req.body);
+	var userName = req.body.name;
+	var tweet = req.body.text;
 
-	//Model.User.findOrCreate
+	Model.User.findOrCreate({
+		where: {name: userName}
+	}).then (function(user) {
+		console.log("userid: ", user[0].id);
+		 return Model.Tweet.create({
+		 	tweet: tweet,
+		 	UserId: user[0].id
+		 })
+	}).then(function() {
+		res.redirect('/');
+	})
+});
+
+router.get('/delete/:tweetid', function(req, res, next) {
+	Model.Tweet.find({
+		where: {id: req.params.tweetid}
+	}).then(function(results) {
+		return results.destroy();
+	}).then(function() {
+		res.redirect('/');
+	})
+	
 })
+
 
 /*
 Model.User.findAll({

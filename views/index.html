@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
 	<div class="pull-right">
-		<a class="btn btn-default" href="/create" role="button">Add Tweet</a>
+		<a class="btn btn-primary" href="/create" role="button">Add Tweet</a>
 	</div>
 </div>
 
@@ -12,11 +12,14 @@
 	<div class="col-md-3 vcenter">
 		<img src="http://1.bp.blogspot.com/-1aK7HDgQUXs/UJJRzSCvCRI/AAAAAAAABec/9YECGPST3rk/s1600/111.png">
 	</div>
-	<div class="col-md-4 vcenter">
-		Name: {{tweet.User.name}} 
+	<div class="col-md-3 vcenter">
+		Name: <a href="/users/{{tweet.UserId}}">{{tweet.User.name}} </a> 
 	</div>
-	<div class="col-md-5 vcenter">
+	<div class="col-md-4 vcenter">
 		Tweet: {{tweet.tweet}}
+	</div>
+	<div class="col-md-2">
+		<a class="btn btn-danger" href="/delete/{{tweet.id}}" role="button">Delete</a>
 	</div>
 </div>
 {% endfor %}
