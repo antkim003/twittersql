@@ -17,6 +17,27 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/summary', function(req, res, next) {
+	var numTweets = {};
+	Model.User.findAll({
+		where: {name: "ontima"}
+	})
+	.then(function(users){
+		users.forEach(function(user) {
+			user.getTweets().then(function(tweet){
+				numTweets[user] = tweet;
+			});
+		});
+		console.log("numTweets ", numTweets);
+		// users.map(function(user) {
+		// 	user.getTweets().then(function(tweet) {
+		// 		numTweets[user] = tweet;
+		// 	})
+		// })
+	});
+})
+
+
 router.get('/users/:id', function(req, res, next) {
 
 	Model.User.find({
