@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+{% for tweet in tweets %}
+
+	<div class="col-md-3">
+		<img src="{{tweet.User.pictureUrl}}">
+	</div>
+	<div class="col-md-4">
+		Name: {{tweet.User.name}} 
+	</div>
+	<div class="col-md-5">
+		Tweet: {{tweet.tweet}}
+	</div>
+
+{% endfor %}
+</div>
+{% endblock %}
